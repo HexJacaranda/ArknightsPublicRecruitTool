@@ -1,0 +1,73 @@
+﻿<Window x:Class="ArknightsPublicRecruitTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArknightsPublicRecruitTool"
+        mc:Ignorable="d"
+        Title="Arknights" Height="450" Width="800" 
+        WindowStyle="None" SizeToContent="WidthAndHeight" 
+        AllowsTransparency="True" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="AppBase">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Vertical" x:Name="TagPanel" Background="Transparent">
+        </StackPanel>
+        <ListBox Grid.Row="2" x:Name="ResultList" Background="Transparent">
+        </ListBox>
+        <Label Background="Transparent" Foreground="White" 
+               Content="Arknights" 
+               HorizontalAlignment="Left" VerticalAlignment="Center"
+               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+               Height="25">
+        </Label>
+        <Button x:Name="ExitButton" Content="X" Foreground="White" Width="30" Height="25" Style="{StaticResource ExitButton}"
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Button.Background>
+                <SolidColorBrush x:Name="Brush" Color="Red" Opacity="0"></SolidColorBrush>
+            </Button.Background>
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0.8" Duration="0:0:0.5">
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0" Duration="0:0:0.5">
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="GotFocus">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0.8" Duration="0:0:0.5">
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="LostFocus">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0" Duration="0:0:0.5">
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+        </Button>
+    </Grid>
+</Window>
