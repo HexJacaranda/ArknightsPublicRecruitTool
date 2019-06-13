@@ -38,7 +38,7 @@
                                         </VisualTransition>
                                         <VisualTransition To="Selected">
                                             <Storyboard>
-                                                <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" To="#CA5100" Duration="0:0:0.5">
+                                                <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" To="#6495ED" Duration="0:0:0.5">
                                                 </ColorAnimation>
                                             </Storyboard>
                                         </VisualTransition>
@@ -65,7 +65,7 @@
                                     </VisualState>
                                     <VisualState x:Name="Selected">
                                         <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" To="#CA5100" Duration="0">
+                                            <ColorAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Color" To="#6495ED" Duration="0">
                                             </ColorAnimation>
                                         </Storyboard>
                                     </VisualState>
@@ -137,7 +137,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Background="{TemplateBinding Background}"
+                        <Grid
                               Height="{TemplateBinding Height}" 
                               Width="{TemplateBinding Width}"
                               MinHeight="{TemplateBinding MinHeight}"
@@ -147,8 +147,52 @@
                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalAlignment}">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}">
                             </ContentPresenter>
+                            <Grid.Background>
+                                <SolidColorBrush x:Name="Brush" 
+                                                 Color="Red"
+                                                 Opacity="0"></SolidColorBrush>
+                            </Grid.Background>
+                            <Grid.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Brush"  Storyboard.TargetProperty="Opacity"
+                                             To="0.8" Duration="0:0:0.5">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0" Duration="0:0:0.5">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="GotFocus">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0.8" Duration="0:0:0.5">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="LostFocus">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
+                                             To="0" Duration="0:0:0.5">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Grid.Triggers>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

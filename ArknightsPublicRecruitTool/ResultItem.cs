@@ -64,4 +64,86 @@ namespace ArknightsPublicRecruitTool
             };
         }
     }
+    class ResultGroup
+    {
+        private ListBoxItem m_item;
+        private Grid m_base;
+        private StackPanel m_panel;
+        private Label m_title;
+        private Label[] m_set;
+        private string m_title_content;
+        private string[] m_set_content;
+        public string Title => m_title_content;
+        public string[] Content => m_set_content;
+        private SolidColorBrush FontColor => new SolidColorBrush(Colors.White);
+        public UIElement Base => m_item;
+        public ResultGroup(string Title, string[] Content,Brush BackgroundBrush)
+        {
+            m_title_content = Title;
+            m_set_content = Content;
+            m_base = new Grid()
+            {
+                Background = new SolidColorBrush(Colors.Transparent),
+                Margin = new Thickness(0, 1, 0, 1)
+            };
+            m_base.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0, GridUnitType.Auto) });
+            m_base.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0, GridUnitType.Auto) });
+            m_panel = new StackPanel()
+            {
+                Orientation = Orientation.Vertical,
+                Background = new SolidColorBrush(Colors.Transparent)
+            };
+            m_panel.SetValue(Grid.RowProperty, 1);
+            m_base.Children.Add(m_panel);
+
+            m_title = new Label()
+            {
+                Content = Title,
+                Background = new SolidColorBrush(Colors.Transparent),
+                FontWeight = FontWeights.SemiBold,
+                Foreground = FontColor,
+                Height = 30,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center
+            };
+            m_title.SetValue(Grid.RowProperty, 0);
+            m_base.Children.Add(m_title);
+
+            m_set = new Label[Content.Length];
+            for (int i = 0; i < Content.Length; ++i)
+            {
+                m_set[i] = new Label()
+                {
+                    Content = Content[i],
+                    Background = new SolidColorBrush(Colors.White) { Opacity = 0.3 },
+                    Foreground = FontColor,
+                    Height = 30,
+                    Margin = new Thickness(0, 0, 0, 2),
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center
+                };
+                m_panel.Children.Add(m_set[i]);
+            }
+            m_item = new ListBoxItem()
+            {
+                Content = m_base,
+                Background = BackgroundBrush,
+                Foreground = FontColor,
+                MinHeight = 30,
+                Margin = new Thickness(0, 0, 0, 1),
+                BorderThickness = new Thickness(2),
+                Style = Application.Current.Resources["ItemStyle"] as Style,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center
+            };
+            m_item.MouseEnter += (sender, e) =>
+            {
+                VisualStateManager.GoToState(sender as FrameworkElement, "MouseEnter", true);
+            };
+            m_item.MouseLeave += (sender, e) =>
+            {
+                VisualStateManager.GoToState(sender as FrameworkElement, "MouseLeave", true);
+            };
+        }
+    }
 }

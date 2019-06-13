@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ButtonStyleProperty.cs" />
     <Compile Include="RecruitLogical.cs" />
     <Compile Include="ResultItem.cs" />
     <Compile Include="TagCategories.cs" />

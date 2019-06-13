@@ -30,10 +30,19 @@ namespace ArknightsPublicRecruitTool
 
         private RecruitAPI API;
         private TagCategory[] Categories;
-        void Initialize()
+        private KeyValuePair<string[], Operator[]>[] QueryResult = null;
+        private object SyncRoot = new object();
+        private object QuerySync = new object();
+        private bool View = false;
+        private void Initialize()
         {
             AppBase.Background = Application.Current.Resources["BackgroundBrush"] as SolidColorBrush;
             ExitButton.Click += (sender, e) => { Close(); };
+            ConvertButton.Click += (sender, e) =>
+            {
+                View = !View;
+                RefreshView();       
+            };
             MouseMove += (sender, e) => { if (e.LeftButton == MouseButtonState.Pressed) DragMove(); };
             API = new RecruitAPI()
             {
@@ -48,18 +57,86 @@ namespace ArknightsPublicRecruitTool
             foreach (var category in Categories)
                 TagPanel.Children.Add(category.Base);
         }
+        static string ContactWith(IEnumerable<string> Sequence, string Seperator)
+        {
+            var builder = new StringBuilder();
+            string first = Sequence.FirstOrDefault();
+            if (first == default)
+                return default;
+            Sequence = Sequence.Skip(1);
+            builder.Append(first);
+            foreach (var each in Sequence)
+            {
+                builder.Append(Seperator);
+                builder.Append(each);
+            }
+            return builder.ToString();
+        }
         private void UpdateNotify(KeyValuePair<string[], Operator[]>[] Update)
         {
-            var query = new List<KeyValuePair<string[], Operator>>();
-            foreach (var pair in Update)
-                query.AddRange(from item in pair.Value select new KeyValuePair<string[], Operator>(pair.Key, item));
-            var items = from item in query select new ResultItem(item.Key, item.Value);
+            lock (QuerySync) QueryResult = Update;
+            RefreshView();
+        }
+        private void RefreshView()
+        {
+            if (View)
+                GenerateTagView();
+            else
+                GenerateOperatorView();
+        }
+        private void GenerateOperatorView()
+        {
+            var table = new Dictionary<Operator, List<string[]>>();
+            lock (QuerySync)
+            {
+                if (QueryResult == null || QueryResult.Length == 0)
+                    return;
+                foreach (var query in QueryResult)
+                {
+                    foreach (var op in query.Value)
+                    {
+                        if (!table.ContainsKey(op))
+                            table.Add(op, new List<string[]>());
+                        table[op].Add(query.Key);
+                    }
+                }
+            }
+            var items = from pair in table
+                        select new ResultGroup(
+                        string.Format("星级: {0} 代号: {1}", pair.Key.Rank, pair.Key.CodeName),
+                        (from set in pair.Value select ContactWith(set, " ")).ToArray(),
+                        ResultItem.RankBrushes[pair.Key.Rank - 1]);
             ResultList.Dispatcher.BeginInvoke(new Action(delegate ()
             {
-                ResultList.Items.Clear();
-                foreach (var item in items)
+                lock(SyncRoot)
                 {
-                    ResultList.Items.Add(item.Base);
+                    ResultList.Items.Clear();
+                    foreach (var item in items)
+                        ResultList.Items.Add(item.Base);
+                }
+            }));
+        }
+        private void GenerateTagView()
+        {
+            var items = new List<ResultGroup>();
+            lock (QuerySync)
+            {
+                if (QueryResult == null || QueryResult.Length == 0)
+                    return;
+                foreach (var query in QueryResult)
+                    items.Add(new ResultGroup(
+                        ContactWith(query.Key, " "),
+                        (from op in query.Value select string.Format("星级: {0} 代号: {1}", op.Rank, op.CodeName)).ToArray(),
+                        ResultItem.RankBrushes[query.Value.FirstOrDefault() == null ? 0 : query.Value.First().Rank - 1]
+                        ));
+            }
+            ResultList.Dispatcher.BeginInvoke(new Action(delegate ()
+            {
+                lock (SyncRoot)
+                {
+                    ResultList.Items.Clear();
+                    foreach (var item in items)
+                        ResultList.Items.Add(item.Base);
                 }
             }));
         }

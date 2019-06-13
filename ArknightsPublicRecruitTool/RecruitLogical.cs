@@ -16,6 +16,7 @@ namespace ArknightsPublicRecruitTool
         public Dictionary<string, string[]> Categories => API.TagCategories;
 
         public delegate void ResultDoneNotify(KeyValuePair<string[], Operator[]>[] Update);
+
         public event ResultDoneNotify Notify;
         public RecruitAPI()
         {
@@ -24,10 +25,7 @@ namespace ArknightsPublicRecruitTool
         }
         private void TagsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Task.Run(() =>
-            {
-                Notify(API.BestOf(m_tags.ToArray(), target => target.Rank >= 3).ToArray());
-            });
+            Notify(API.BestOf(m_tags.ToArray(), target => target.Rank >= 3).ToArray());
         }
     }
 }

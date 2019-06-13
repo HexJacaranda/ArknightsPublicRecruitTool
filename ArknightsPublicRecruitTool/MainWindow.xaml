@@ -12,11 +12,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Button Grid.Row="2" x:Name="ConvertButton" Content="转换视图" Foreground="White" Width="60" Height="25" Style="{StaticResource ExitButton}" 
+                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,5"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        </Button>
         <StackPanel Grid.Row="1" Orientation="Vertical" x:Name="TagPanel" Background="Transparent">
         </StackPanel>
-        <ListBox Grid.Row="2" x:Name="ResultList" Background="Transparent">
+        <ListBox Grid.Row="3" x:Name="ResultList" Background="Transparent">
         </ListBox>
         <Label Background="Transparent" Foreground="White" 
                Content="Arknights" 
@@ -24,50 +29,9 @@
                VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                Height="25">
         </Label>
-        <Button x:Name="ExitButton" Content="X" Foreground="White" Width="30" Height="25" Style="{StaticResource ExitButton}"
+        <Button x:Name="ExitButton" Content="X" Foreground="White" Width="30" Height="25" Style="{StaticResource ExitButton}" 
                 HorizontalAlignment="Right" VerticalAlignment="Top"
                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-            <Button.Background>
-                <SolidColorBrush x:Name="Brush" Color="Red" Opacity="0"></SolidColorBrush>
-            </Button.Background>
-            <Button.Triggers>
-                <EventTrigger RoutedEvent="MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
-                                             To="0.8" Duration="0:0:0.5">
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
-                                             To="0" Duration="0:0:0.5">
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="GotFocus">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
-                                             To="0.8" Duration="0:0:0.5">
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="LostFocus">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="Brush" Storyboard.TargetProperty="Opacity"
-                                             To="0" Duration="0:0:0.5">
-                            </DoubleAnimation>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Button.Triggers>
         </Button>
     </Grid>
 </Window>

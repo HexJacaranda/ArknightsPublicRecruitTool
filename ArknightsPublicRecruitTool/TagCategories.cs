@@ -24,7 +24,7 @@ namespace ArknightsPublicRecruitTool
         private IList<string> m_reference_to_tags;
         public string Category => m_category;
         public string[] Tags => m_tags;
-        public Grid Base => m_grid;
+        public UIElement Base => m_grid;
         public TagCategory(IList<string> TagsReference, string Cat, string[] TagSeq)
         {
             m_tags = TagSeq;
