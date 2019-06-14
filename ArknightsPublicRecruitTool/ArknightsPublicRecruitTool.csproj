@@ -55,8 +55,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Arknights">
-      <HintPath>..\..\Arknights\Arknights\bin\x86\Release\Arknights.dll</HintPath>
+    <Reference Include="Arknights, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Arknights\Arknights\bin\x86\Debug\Arknights.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

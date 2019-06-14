@@ -24,7 +24,7 @@ namespace ArknightsPublicRecruitTool
             m_tags.CollectionChanged += TagsChanged;
         }
         private void TagsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
+        { 
             Notify(API.BestOf(m_tags.ToArray(), target => target.Rank >= 3).ToArray());
         }
     }

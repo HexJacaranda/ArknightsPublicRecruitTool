@@ -89,8 +89,11 @@ namespace ArknightsPublicRecruitTool
             var table = new Dictionary<Operator, List<string[]>>();
             lock (QuerySync)
             {
-                if (QueryResult == null || QueryResult.Length == 0)
-                    return;
+                if (QueryResult.Length == 0)
+                    ResultList.Dispatcher.BeginInvoke(new Action(delegate ()
+                    {
+                        ResultList.Items.Clear();
+                    }));
                 foreach (var query in QueryResult)
                 {
                     foreach (var op in query.Value)
@@ -121,8 +124,13 @@ namespace ArknightsPublicRecruitTool
             var items = new List<ResultGroup>();
             lock (QuerySync)
             {
-                if (QueryResult == null || QueryResult.Length == 0)
+                if (QueryResult == null)
                     return;
+                if (QueryResult.Length == 0)
+                    ResultList.Dispatcher.BeginInvoke(new Action(delegate ()
+                    {
+                        ResultList.Items.Clear();
+                    }));
                 foreach (var query in QueryResult)
                     items.Add(new ResultGroup(
                         ContactWith(query.Key, " "),
